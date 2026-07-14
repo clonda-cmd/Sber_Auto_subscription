@@ -6,7 +6,13 @@ ROC-AUC ≈ 0.70 — модель успешно предсказывает фа
 <img width="908" height="804" alt="Снимок экрана 2026-06-28 115641" src="https://github.com/user-attachments/assets/9161d8df-16de-4c68-8e21-8c582a9e4866" />
 
 
-Матрица ошибок      
+
+
+
+Матрица ошибок
+
+
+
 <img width="158" height="142" alt="Снимок экрана 2026-07-14 162014" src="https://github.com/user-attachments/assets/a57d9958-2353-45a8-9168-9ad22fa9316f" />
      
 
