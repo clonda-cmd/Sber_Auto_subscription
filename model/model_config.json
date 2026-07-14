@@ -1,0 +1,35 @@
+{
+    "threshold": 0.7,
+    "model_version": "1.0",
+    "features": [
+        "visit_number",
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_adcontent",
+        "utm_keyword",
+        "device_category",
+        "device_os",
+        "device_brand",
+        "device_browser",
+        "geo_country",
+        "geo_city",
+        "hour",
+        "weekday",
+        "is_organic",
+        "is_social"
+    ],
+    "cat_features": [
+        "utm_source",
+        "utm_medium",
+        "utm_campaign",
+        "utm_adcontent",
+        "utm_keyword",
+        "device_category",
+        "device_os",
+        "device_brand",
+        "device_browser",
+        "geo_country",
+        "geo_city"
+    ]
+}
