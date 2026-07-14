@@ -94,31 +94,31 @@ http://localhost:8000
 
 3. Запрос
 
-Json
-{
-  "data": {
-    "visit_number": 1,
-    "visit_date": "2021-06-15",
-    "visit_time": "14:30:25",
-    "utm_source": "google",
-    "utm_medium": "organic",
-    "utm_campaign": "campaign1",
-    "utm_adcontent": "ad1",
-    "utm_keyword": "car",
-    "device_category": "mobile",
-    "device_os": "Android",
-    "device_brand": "Samsung",
-    "device_browser": "Chrome",
-    "geo_country": "Russia",
-    "geo_city": "Moscow"
-  }
-}
+Json      
+{      
+  "data": {      
+    "visit_number": 1,      
+    "visit_date": "2021-06-15",      
+    "visit_time": "14:30:25",      
+    "utm_source": "google",      
+    "utm_medium": "organic",      
+    "utm_campaign": "campaign1",      
+    "utm_adcontent": "ad1",      
+    "utm_keyword": "car",      
+    "device_category": "mobile",      
+    "device_os": "Android",      
+    "device_brand": "Samsung",      
+    "device_browser": "Chrome",      
+    "geo_country": "Russia",      
+    "geo_city": "Moscow"      
+  }      
+}      
 
-4. Ответ
+4. Ответ      
 
-Json
-{
-  "success": true,
-  "prediction": 0,
-  "probability": 0.0091
-}
+Json      
+{      
+  "success": true,      
+  "prediction": 0,      
+  "probability": 0.0091      
+}      
