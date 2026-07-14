@@ -70,16 +70,17 @@ IZEXUFLARCUMynmHNBGo', 'PlbkrSYoHuZBWfYjYnfw',
 - event_category — тип действия;
 - event_action — действие;
 - event_label — тег действия;
-- event_value — значение результата действия.
+- event_value — значение результата действия.      
+  
 
 
 
-- Использован CatBoost      
-- Реализован preprocessing pipeline      
-- Обработка пропусков и неизвестных значений      
-- Поддержка JSON API      
-- Сохранение модели в .cbm      
-- Сохранение конфигурации в .json      
+- *Использован CatBoost*      
+- *Реализован preprocessing pipeline*      
+- *Обработка пропусков и неизвестных значений*      
+- *Поддержка JSON API*      
+- *Сохранение модели в .cbm*      
+- *Сохранение конфигурации в .json*      
 
 1. Установка зависимостей
 
