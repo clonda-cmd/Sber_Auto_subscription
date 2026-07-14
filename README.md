@@ -1,126 +1,191 @@
-Задача:
+🚀 Прогнозирование целевого действия пользователя
+https://img.shields.io/badge/python-3.8+-blue.svg
+https://img.shields.io/badge/CatBoost-latest-orange.svg
+https://img.shields.io/badge/FastAPI-0.68+-green.svg
+https://img.shields.io/badge/license-MIT-blue.svg
 
-- Научитесь предсказывать совершение целевого действия
-(ориентировочное значение ROC-AUC ~ 0.65) — факт совершения
-пользователем целевого действия.
-- Упакуйте получившуюся модель в сервис, который будет брать на
-вход все атрибуты, типа utm_*, device_*, geo_*, и отдавать на выход
-0/1 (1 — если пользователь совершит любое целевое действие).
+Сервис для предсказания совершения пользователем целевого действия на основе данных о визитах и поведении.
+
+📊 Метрика качества
+ROC-AUC ≈ 0.65 — модель успешно предсказывает факт совершения целевого действия
+
+📋 Содержание
+Описание задачи
+
+Глоссарий
+
+Архитектура решения
+
+Установка и запуск
+
+API Endpoints
+
+Примеры запросов
+
+Структура проекта
+
+Технологии
+
+🎯 Описание задачи
+Разработана модель машинного обучения для прогнозирования вероятности совершения пользователем целевого действия (оформление заявки или заказ звонка) на основе данных о визите:
+
+Источники трафика (utm_*)
+
+Характеристики устройства (device_*)
+
+Географические данные (geo_*)
+
+Поведенческие паттерны
+
+Вход: атрибуты визита пользователя
+Выход: бинарный прогноз (0/1) и вероятность целевого действия
+
+📚 Глоссарий
+🎯 Целевое действие
+События, свидетельствующие о заинтересованности пользователя:
+
+sub_car_claim_click — клик по заявке на авто
+
+sub_car_claim_submit_click — отправка заявки
+
+sub_open_dialog_click — открытие диалога
+
+sub_custom_question_submit_click — отправка вопроса
+
+sub_call_number_click — клик по номеру телефона
+
+sub_callback_submit_click — заказ обратного звонка
+
+sub_submit_success — успешная отправка
+
+sub_car_request_submit_click — запрос по авто
+
+📈 CR (Conversion Rate)
+Конверсия из визита (session_id) в целевое действие. При наличии нескольких целевых действий в рамках одного визита — считается как одно.
+
+🌿 Органический трафик
+Визиты с utm_medium в:
+
+organic
+
+referral
+
+(none)
+
+💰 Платный трафик
+Весь неорганический трафик (все остальные utm_medium).
+
+📱 Реклама в соцсетях
+Визиты с utm_source:
+
+QxAxdyPLuQMEcrdZWdWb
+
+MvfHsxITijuriZxsqZqt
+
+ISrKoXQCxqqYvAZICvjs
+
+IZEXUFLARCUMynmHNBGo
+
+PlbkrSYoHuZBWfYjYnfw
+
+gVRrcxiDQubJiljoTbGm
+
+🏗 Архитектура решения
+text
+┌─────────────────────────────────────────────────────────────┐
+│                     Входные данные                          │
+│  (utm_*, device_*, geo_*, visit_date, visit_time, ...)      │
+└─────────────────────┬───────────────────────────────────────┘
+                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Preprocessing Pipeline                         │
+│  • Обработка пропусков                                      │
+│  • Кодирование категориальных признаков                     │
+│  • Обработка неизвестных значений                           │
+│  • Генерация новых признаков                                │
+└─────────────────────┬───────────────────────────────────────┘
+                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   CatBoost Classifier                       │
+│              (обучен на исторических данных)                │
+└─────────────────────┬───────────────────────────────────────┘
+                      ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     Выходные данные                         │
+│          • prediction: 0/1                                  │
+│          • probability: 0.00 - 1.00                         │
+└─────────────────────────────────────────────────────────────┘
 
 
-Глоссарий:
+Тело запроса:
 
-**Целевое действие** — события типа «Оставить заявку» и «Заказать звонок»
-(ga_hits.event_action in ['sub_car_claim_click', 'sub_car_claim_submit_click',
-'sub_open_dialog_click', 'sub_custom_question_submit_click',
-'sub_call_number_click', 'sub_callback_submit_click', 'sub_submit_success',
-'sub_car_request_submit_click']).
+json
+{
+  "data": {
+    "visit_number": 1,
+    "visit_date": "2021-06-15",
+    "visit_time": "14:30:25",
+    "utm_source": "google",
+    "utm_medium": "organic",
+    "utm_campaign": "campaign1",
+    "utm_adcontent": "ad1",
+    "utm_keyword": "car",
+    "device_category": "mobile",
+    "device_os": "Android",
+    "device_brand": "Samsung",
+    "device_browser": "Chrome",
+    "geo_country": "Russia",
+    "geo_city": "Moscow"
+  }
+}
+Успешный ответ:
 
-**CR (Conversion Rate)** — показатель конверсии из визита (уникальный
-session_id) в любое целевое действие в рамках одного визита (в случае
-наличия >1 целевого действия — считать все как одно).
+json
+{
+  "success": true,
+  "prediction": 0,
+  "probability": 0.0091,
+  "timestamp": "2026-07-14T15:30:45.123456"
+}
+Ответ с ошибкой:
 
-**Органический трафик** — все визиты с ga_sessions.utm_medium in ('organic',
-'referral', '(none)').
+json
+{
+  "success": false,
+  "error": "Missing required field: visit_date",
+  "timestamp": "2026-07-14T15:30:45.123456"
+}
+Пакетный запрос
+POST /predict_batch
 
-**Платный трафик** — весь неорганический трафик.
-
-**Информация про марку и модель авто** — содержится в ga_hits.hit_page_path.
-
-**Реклама в социальных сетях** — все визиты с ga_sessions.utm_source in
-('QxAxdyPLuQMEcrdZWdWb', 'MvfHsxITijuriZxsqZqt', 'ISrKoXQCxqqYvAZICvjs',
-IZEXUFLARCUMynmHNBGo', 'PlbkrSYoHuZBWfYjYnfw',
-'gVRrcxiDQubJiljoTbGm').
-
-
-Данные:
-
-**ga_sessions** *(одна строка = один визит на сайт)*
-Описание атрибутов:
-- session_id — ID визита;
-- client_id — ID посетителя;
-- visit_date — дата визита;
-- visit_time — время визита;
-- visit_number — порядковый номер визита клиента;
-- utm_source — канал привлечения;
-- utm_medium — тип привлечения;
-- utm_campaign — рекламная кампания;
-- utm_keyword — ключевое слово;
-- device_category — тип устройства;
-- device_os — ОС устройства;
-- device_brand — марка устройства;
-- device_model — модель устройства;
-- device_screen_resolution — разрешение экрана;
-- device_brand — марка устройства;
-- device_model — модель устройства;
-- device_screen_resolution — разрешение экрана;
-- device_browser — браузер;
-- geo_country — страна;
-- geo_city — город.
-
-**ga_hits** *(одна строка = одно событие в рамках одного визита на сайт)*
-Описание атрибутов:
-- session_id — ID визита;
-- hit_date — дата события;
-- hit_time — время события;
-- hit_number — порядковый номер события в рамках сессии;
-- hit_type — тип события;
-- hit_referer — источник события;
-- hit_page_path — страница события;
-- event_category — тип действия;
-- event_action — действие;
-- event_label — тег действия;
-- event_value — значение результата действия.              
-  
-
-=============================================
-  *Использован CatBoost*      
-  *Реализован preprocessing pipeline*      
-  *Обработка пропусков и неизвестных значений*      
-  *Поддержка JSON API*      
-  *Сохранение модели в .cbm*      
-  *Сохранение конфигурации в .json*            
-=============================================      
-
-1. Установка зависимостей
-   
-
-- pip install -r requirements.txt
-
-2. Запуск API
-
-- python app.py
-
-http://localhost:8000
+json
+{
+  "data": [
+    {
+      "visit_number": 1,
+      "visit_date": "2021-06-15",
+      "utm_source": "google",
+      ...
+    },
+    {
+      "visit_number": 2,
+      "visit_date": "2021-06-16",
+      "utm_source": "facebook",
+      ...
+    }
+  ]
+}
 
 
-3. Запрос
 
-Json      
-{      
-  "data": {      
-    "visit_number": 1,      
-    "visit_date": "2021-06-15",      
-    "visit_time": "14:30:25",      
-    "utm_source": "google",      
-    "utm_medium": "organic",      
-    "utm_campaign": "campaign1",      
-    "utm_adcontent": "ad1",      
-    "utm_keyword": "car",      
-    "device_category": "mobile",      
-    "device_os": "Android",      
-    "device_brand": "Samsung",      
-    "device_browser": "Chrome",      
-    "geo_country": "Russia",      
-    "geo_city": "Moscow"      
-  }      
-}      
+Реализация      
+✅ Полный preprocessing pipeline
 
-4. Ответ      
+✅ Обработка пропусков и неизвестных значений
 
-Json      
-{      
-  "success": true,      
-  "prediction": 0,      
-  "probability": 0.0091      
-}      
+✅ Поддержка JSON API
+
+✅ Сохранение модели в .cbm (CatBoost)
+
+✅ Сохранение конфигурации в .json
+
