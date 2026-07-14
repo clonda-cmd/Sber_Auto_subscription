@@ -3,20 +3,16 @@
 📊 Метрика качества
 ROC-AUC ≈ 0.76 — модель успешно предсказывает факт совершения целевого действия
 
-Матрица ошибок
-TN = 223897
-FP = 138049
-FN = 3318
-TP = 6745
+<img width="908" height="804" alt="Снимок экрана 2026-06-28 115641" src="https://github.com/user-attachments/assets/9161d8df-16de-4c68-8e21-8c582a9e4866" />
 
 
-Сводная статистика
+Матрица ошибок      
+TN = 223897      
+FP = 138049      
+FN = 3318      
+TP = 6745      
 
-              precision    recall  f1-score   support
+<img width="718" height="277" alt="Снимок экрана 2026-07-14 161923" src="https://github.com/user-attachments/assets/b2caa529-1b5c-4833-bc89-bdd748422e7e" />
 
-           0       0.99      0.62      0.76    361946
-           1       0.05      0.67      0.09     10063
 
-    accuracy                           0.62    372009
-   macro avg       0.52      0.64      0.42    372009
-weighted avg       0.96      0.62      0.74    372009
+
